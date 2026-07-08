@@ -1,0 +1,264 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>嵌入式开发者 - 作品集</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ====== 导航 radio 按钮（纯 CSS 切换） ====== -->
+  <input type="radio" name="nav" id="nav-personal" checked hidden>
+  <input type="radio" name="nav" id="nav-experience" hidden>
+  <input type="radio" name="nav" id="nav-skills" hidden>
+  <input type="radio" name="nav" id="nav-portfolio" hidden>
+
+  <!-- ====== 移动端侧边栏开关 ====== -->
+  <input type="checkbox" id="sidebarToggle" hidden>
+
+  <div class="layout">
+
+    <!-- ====== 侧边栏 ====== -->
+    <aside class="sidebar">
+      <label for="sidebarToggle" class="sidebar-btn" aria-label="切换侧边栏">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </label>
+
+      <div class="sidebar-header">
+        <div class="avatar">&#x1F469;&#x200D;&#x1F4BB;</div>
+        <h1 id="sidebarName">嵌入式开发者</h1>
+        <p id="sidebarTitle">Firmware Engineer</p>
+      </div>
+
+      <nav class="nav">
+        <label class="nav-item" for="nav-personal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>个人信息</span>
+        </label>
+        <label class="nav-item" for="nav-experience">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+          <span>项目经验</span>
+        </label>
+        <label class="nav-item" for="nav-skills">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+          <span>技术栈</span>
+        </label>
+        <label class="nav-item" for="nav-portfolio">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <span>作品集</span>
+        </label>
+      </nav>
+
+      <div class="sidebar-footer">
+        编辑 data/*.md 更新内容
+      </div>
+    </aside>
+
+    <!-- ====== 主内容区 ====== -->
+    <main class="main">
+
+      <!-- 个人信息 -->
+      <section id="personal" class="content-section">
+        <h1>个人信息</h1>
+
+        <h2>基本信息</h2>
+        <ul>
+          <li><strong>姓名：</strong>你的名字</li>
+          <li><strong>职位：</strong>嵌入式软件工程师 / Firmware Engineer</li>
+          <li><strong>所在地：</strong>城市，国家</li>
+          <li><strong>邮箱：</strong>your.email@example.com</li>
+          <li><strong>GitHub：</strong><a href="https://github.com/your-username">github.com/your-username</a></li>
+        </ul>
+
+        <hr>
+
+        <h2>关于我</h2>
+        <blockquote>
+          拥有 X 年嵌入式系统开发经验，深耕于 ARM Cortex-M/RISC-V 平台，<br>
+          熟悉 RTOS（FreeRTOS / Zephyr）与裸机开发。<br>
+          关注低功耗设计、驱动开发与硬件-软件协同调试。
+        </blockquote>
+
+        <hr>
+
+        <h2>联系方式</h2>
+        <ul>
+          <li><strong>微信：</strong>your_wechat</li>
+          <li><strong>电话：</strong>+86 138-0000-0000</li>
+          <li><strong>LinkedIn：</strong><a href="https://linkedin.com/in/your-profile">linkedin.com/in/your-profile</a></li>
+        </ul>
+      </section>
+
+      <!-- 项目经验 -->
+      <section id="experience" class="content-section">
+        <h1>项目经验</h1>
+
+        <h2>项目一：项目名称</h2>
+        <p><strong>时间：</strong>202X.XX — 202X.XX</p>
+        <p><strong>角色：</strong>嵌入式软件工程师</p>
+        <p><strong>描述：</strong>请描述项目背景与目标。</p>
+        <p><strong>负责内容：</strong></p>
+        <ul>
+          <li>负责 XXX 模块的驱动开发与调试</li>
+          <li>使用 I2C/SPI/UART 等总线协议与传感器通信</li>
+          <li>基于 FreeRTOS 实现任务调度与低功耗管理</li>
+        </ul>
+        <p><strong>技术栈：</strong>STM32F4 · FreeRTOS · C · IAR Embedded Workbench</p>
+
+        <hr>
+
+        <h2>项目二：项目名称</h2>
+        <p><strong>时间：</strong>202X.XX — 202X.XX</p>
+        <p><strong>角色：</strong>嵌入式开发工程师</p>
+        <p><strong>描述：</strong>请描述项目背景与目标。</p>
+        <p><strong>负责内容：</strong></p>
+        <ul>
+          <li>基于 ESP32 开发无线数据采集终端</li>
+          <li>实现 MQTT 协议上报数据到云平台</li>
+          <li>PCB 原理图评审与硬件调试</li>
+        </ul>
+        <p><strong>技术栈：</strong>ESP32 · ESP-IDF · MQTT · Python（上位机）</p>
+
+        <hr>
+
+        <h2>项目三：项目名称</h2>
+        <p><strong>时间：</strong>202X.XX — 202X.XX</p>
+        <p><strong>角色：</strong>嵌入式软件工程师</p>
+        <p><strong>描述：</strong>请描述项目背景与目标。</p>
+        <p><strong>负责内容：</strong></p>
+        <ul>
+          <li>设计并实现 Bootloader（基于 YMODEM 协议）</li>
+          <li>编写单元测试与硬件在环测试（HIL）</li>
+          <li>撰写技术文档与测试报告</li>
+        </ul>
+        <p><strong>技术栈：</strong>ARM Cortex-M3 · C · Python · pytest</p>
+      </section>
+
+      <!-- 技术栈 -->
+      <section id="skills" class="content-section">
+        <h1>技术栈</h1>
+
+        <h2>编程语言</h2>
+        <ul>
+          <li><strong>C / C++</strong> — 主力语言，X 年经验</li>
+          <li><strong>Python</strong> — 自动化测试、数据分析、上位机开发</li>
+          <li><strong>Rust</strong> — 嵌入式裸机开发（了解/熟练）</li>
+          <li><strong>汇编</strong> — ARM Cortex-M / RISC-V 启动代码与优化</li>
+        </ul>
+
+        <h2>嵌入式平台</h2>
+        <table>
+          <thead><tr><th>平台</th><th>经验</th></tr></thead>
+          <tbody>
+            <tr><td>STM32 (F0/F1/F4/H7)</td><td>熟练</td></tr>
+            <tr><td>ESP32 / ESP8266</td><td>熟练</td></tr>
+            <tr><td>NXP i.MX RT</td><td>有经验</td></tr>
+            <tr><td>国产 MCU（GD32/CH32）</td><td>有经验</td></tr>
+            <tr><td>RISC-V (K210 / BL808)</td><td>了解</td></tr>
+            <tr><td>Arduino / Raspberry Pi</td><td>原型验证</td></tr>
+          </tbody>
+        </table>
+
+        <h2>RTOS / 操作系统</h2>
+        <ul>
+          <li><strong>FreeRTOS</strong> — 任务调度、队列、信号量、低功耗 Tickless</li>
+          <li><strong>Zephyr RTOS</strong> — 设备树、驱动框架、构建系统</li>
+          <li><strong>RT-Thread</strong> — 有经验</li>
+          <li><strong>Linux</strong> — 嵌入式 Linux 驱动、交叉编译、Yocto/Buildroot</li>
+        </ul>
+
+        <h2>协议与总线</h2>
+        <ul>
+          <li><strong>有线：</strong>I2C · SPI · UART · CAN · USB · Ethernet</li>
+          <li><strong>无线：</strong>BLE · WiFi · LoRa · NB-IoT</li>
+          <li><strong>应用层：</strong>MQTT · CoAP · HTTP/HTTPS · Modbus</li>
+        </ul>
+
+        <h2>工具链与调试</h2>
+        <ul>
+          <li><strong>IDE：</strong>Keil MDK · IAR Embedded Workbench · STM32CubeIDE · VS Code</li>
+          <li><strong>调试器：</strong>J-Link · ST-Link · DAP-Link · OpenOCD</li>
+          <li><strong>逻辑分析仪：</strong>Saleae Logic · DSView · PulseView</li>
+          <li><strong>版本管理：</strong>Git · GitHub · GitLab</li>
+          <li><strong>CI/CD：</strong>GitHub Actions · Jenkins</li>
+        </ul>
+
+        <h2>硬件技能</h2>
+        <ul>
+          <li>原理图阅读与审核</li>
+          <li>多层 PCB 布局（Altium Designer / KiCad）</li>
+          <li>焊接与硬件调试（示波器 · 万用表 · 信号发生器）</li>
+          <li>低功耗电路设计</li>
+          <li>传感器选型与验证</li>
+        </ul>
+      </section>
+
+      <!-- 作品集 -->
+      <section id="portfolio" class="content-section">
+        <h1>作品集</h1>
+
+        <h2>作品一：智能家居网关</h2>
+        <p><img src="portfolio/gateway.jpg" alt="智能家居网关"></p>
+        <p>基于 ESP32 的智能家居网关，支持 WiFi/BLE 双模通信，集成 MQTT 协议对接 Home Assistant。</p>
+        <ul>
+          <li><strong>硬件：</strong>ESP32-WROOM-32 · 板载天线 · USB-UART 调试口</li>
+          <li><strong>固件：</strong>ESP-IDF v4.4 · FreeRTOS · MQTT Client</li>
+          <li><strong>特点：</strong>低功耗休眠模式 · OTA 远程升级</li>
+        </ul>
+
+        <hr>
+
+        <h2>作品二：手持数据采集仪</h2>
+        <p><img src="portfolio/daq.jpg" alt="手持数据采集仪"></p>
+        <p>便携式数据采集终端，用于工业现场传感器数据记录。</p>
+        <ul>
+          <li><strong>硬件：</strong>STM32F407 · 2.8" TFT 触摸屏 · SD 卡存储</li>
+          <li><strong>固件：</strong>STM32 HAL · FatFS · USB MSC</li>
+          <li><strong>上位机：</strong>Python PyQt5 数据分析与图表显示</li>
+        </ul>
+
+        <hr>
+
+        <h2>作品三：电机控制驱动器</h2>
+        <p><img src="portfolio/motor_driver.jpg" alt="电机控制驱动器"></p>
+        <p>FOC 无刷直流电机驱动器，用于机器人关节控制。</p>
+        <ul>
+          <li><strong>硬件：</strong>STM32G431 · 三相逆变桥 · 霍尔/编码器接口</li>
+          <li><strong>固件：</strong>双环 PID（速度环 + 电流环）· SVPWM</li>
+          <li><strong>性能：</strong>转速闭环精度 ±1 RPM · 20kHz 开关频率</li>
+        </ul>
+
+        <hr>
+
+        <h2>作品四：RISC-V 开发板实验</h2>
+        <p><img src="portfolio/riscv_board.jpg" alt="RISC-V 开发板"></p>
+        <p>在国产 RISC-V 开发板上移植 Zephyr RTOS 并验证外设驱动。</p>
+        <ul>
+          <li><strong>平台：</strong>CH32V307 (沁恒)</li>
+          <li><strong>系统：</strong>Zephyr RTOS</li>
+          <li><strong>外设：</strong>GPIO · UART · SPI · ADC · PWM</li>
+          <li><strong>成果：</strong>提交 3 个驱动补丁到上游社区</li>
+        </ul>
+
+        <hr>
+
+        <blockquote>
+          <strong>提示：</strong>将作品实物照片放入 <code>portfolio/</code> 文件夹，
+          文件名与上面 <code>img src</code> 中的路径一致即可自动显示。
+          支持 JPG / PNG / WebP 格式。
+        </blockquote>
+      </section>
+
+      <!-- 聚焦辅助层：点击关闭侧边栏 -->
+      <label for="sidebarToggle" class="sidebar-overlay"></label>
+
+    </main>
+
+  </div>
+
+  <!-- PS：编辑 data/*.md 备份文件，同步更新此 HTML 对应区块即可 -->
+</body>
+</html>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450">
+  <rect width="800" height="450" fill="#111820"/>
+  <rect x="1" y="1" width="798" height="448" fill="none" stroke="#1e2a3a" stroke-width="2"/>
+  <rect x="300" y="120" width="200" height="140" rx="8" fill="none" stroke="#4caf50" stroke-width="3"/>
+  <line x1="340" y1="180" x2="460" y2="180" stroke="#4caf50" stroke-width="1" opacity="0.5"/>
+  <line x1="340" y1="200" x2="420" y2="200" stroke="#4caf50" stroke-width="1" opacity="0.3"/>
+  <text x="400" y="310" text-anchor="middle" fill="#4caf50" font-family="monospace" font-size="22" font-weight="600">手持数据采集仪</text>
+  <text x="400" y="340" text-anchor="middle" fill="#5a6a82" font-family="monospace" font-size="13">STM32F407 · TFT · FatFS</text>
+  <line x1="200" y1="360" x2="600" y2="360" stroke="#1e2a3a" stroke-width="1"/>
+  <text x="400" y="390" text-anchor="middle" fill="#3a4a5a" font-family="monospace" font-size="11">替换为实物照片</text>
+</svg>
