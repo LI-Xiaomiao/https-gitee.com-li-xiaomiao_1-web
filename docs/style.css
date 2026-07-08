@@ -1,17 +1,17 @@
 ﻿/* ===== 基础重置与变量 ===== */
 :root {
-  --bg-primary: #0a0e14;
-  --bg-surface: #111820;
-  --bg-sidebar: #0d1219;
-  --bg-hover: #1a2332;
-  --bg-active: #1a2a3d;
-  --border-color: #1e2a3a;
+  --bg-primary: #0a100c;
+  --bg-surface: #101713;
+  --bg-sidebar: #0c110e;
+  --bg-hover: #16241d;
+  --bg-active: #1a2e24;
+  --border-color: #1a2d24;
   --text-primary: #d4dce8;
   --text-secondary: #8a9bb5;
   --text-muted: #5a6a82;
   --accent-cyan: #00bcd4;
   --accent-green: #4caf50;
-  --accent-amber: #ffc107;
+  --accent-amber: #d4a843;
   --font-mono: "Cascadia Code","Fira Code","JetBrains Mono",Consolas,monospace;
   --font-sans: -apple-system,"Segoe UI","Noto Sans SC",sans-serif;
   --sidebar-w: 280px;
