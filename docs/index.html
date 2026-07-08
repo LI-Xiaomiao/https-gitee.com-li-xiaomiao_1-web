@@ -198,49 +198,58 @@
 
       <!-- 作品集 -->
       <section id="portfolio" class="content-section">
-        <h1>作品集</h1>
-
-        <h2>作品一：智能家居网关</h2>
-        <p><img src="portfolio/gateway.jpg" alt="智能家居网关"></p>
-        <p>基于 ESP32 的智能家居网关，支持 WiFi/BLE 双模通信，集成 MQTT 协议对接 Home Assistant。</p>
-        <ul>
-          <li><strong>硬件：</strong>ESP32-WROOM-32 · 板载天线 · USB-UART 调试口</li>
-          <li><strong>固件：</strong>ESP-IDF v4.4 · FreeRTOS · MQTT Client</li>
-          <li><strong>特点：</strong>低功耗休眠模式 · OTA 远程升级</li>
+       <h1>作品集</h1>
+        <h2>作品一：三子棋人机对弈系统</h2>
+        <p><img src="portfolio/三子棋.png" alt="三子棋人机对弈系统"></p>
+        <p>嵌入式负责人（硬件设计+运动控制+博弈算法），2024.07-2025.08</p>
+       <ul>
+          <li>使用嘉立创EDA完成STM32F103主控板及步进电机驱动扩展板设计，引入继电器控制电磁铁取放机构，提高系统可靠性</li>
+          <li>采用编码器反馈结合PID闭环控制算法，实现双步进电机高精度运动控制，定位精度达到 ±0.5mm</li>
+          <li>通过UART与OpenMV视觉模块通信，实现棋盘与棋子坐标实时获取</li>
+          <li>基于Minimax算法进行优化，引入快速查表机制提升决策效率，AI决策时间缩短至100ms以内</li>
         </ul>
 
-        <hr>
+       <hr>
 
-        <h2>作品二：手持数据采集仪</h2>
-        <p><img src="portfolio/daq.jpg" alt="手持数据采集仪"></p>
-        <p>便携式数据采集终端，用于工业现场传感器数据记录。</p>
-        <ul>
-          <li><strong>硬件：</strong>STM32F407 · 2.8" TFT 触摸屏 · SD 卡存储</li>
-          <li><strong>固件：</strong>STM32 HAL · FatFS · USB MSC</li>
-          <li><strong>上位机：</strong>Python PyQt5 数据分析与图表显示</li>
+        <h2>作品二：RoboMaster哨兵机器人</h2>
+        <p><img src="portfolio/哨兵机器人.jpg" alt="RoboMaster哨兵机器人"></p>
+        <p>嵌入式软件负责人，2024.10-2026.04<br>
+        gitee：<a href="https://gitee.com/li-xiaomiao_1/seeker-electronic-control-code">gitee.com/li-xiaomiao_1/seeker-electronic-control-code</a></p>
+        <p>全国大学生机器人竞赛项目，负责机器人嵌入式控制系统开发，包括软件架构设计、RTOS移植、电机控制网络搭建以及姿态解算算法实现。</p>
+       <ul>
+          <li>设计并搭建 BSP-Module-App 三层软件架构，提高代码复用性与可维护性</li>
+          <li>移植FreeRTOS，划分云台控制、底盘运动和发射管理任务，通过优先级调度和信号量同步保证实时性</li>
+          <li>构建CAN总线电机控制网络，并设计ID仲裁机制避免总线冲突</li>
+          <li>基于BMI088传感器开发四元数姿态解算算法，结合卡尔曼滤波提高测量精度，精度达到 ±0.1°</li>
+          <li>实现带梯形积分、低通滤波及输出限幅的串级PID控制器，完成位置-速度-电流三环控制</li>
+          <li>设计串口通信协议，实现双MCU间高速数据交互</li>
         </ul>
 
-        <hr>
+        <p><img src="portfolio/地面站.jpg" alt="地面站界面"></p>
+        <p>项目获得 2025、2026 RoboMaster 联盟赛国家二等奖</p>
+
+       <hr>
 
         <h2>作品三：电机控制驱动器</h2>
-        <p><img src="portfolio/motor_driver.jpg" alt="电机控制驱动器"></p>
+        <p><img src="portfolio/pcb.jpg" alt="电机控制驱动器PCB"></p>
         <p>FOC 无刷直流电机驱动器，用于机器人关节控制。</p>
-        <ul>
-          <li><strong>硬件：</strong>STM32G431 · 三相逆变桥 · 霍尔/编码器接口</li>
-          <li><strong>固件：</strong>双环 PID（速度环 + 电流环）· SVPWM</li>
-          <li><strong>性能：</strong>转速闭环精度 ±1 RPM · 20kHz 开关频率</li>
+       <ul>
+         <li><strong>硬件：</strong>STM32G431 · 三相逆变桥 · 霍尔/编码器接口</li>
+         <li><strong>固件：</strong>双环 PID（速度环 + 电流环）· SVPWM</li>
+         <li><strong>性能：</strong>转速闭环精度 ±1 RPM · 20kHz 开关频率</li>
         </ul>
+
+        <p><img src="portfolio/pcb2.jpg" alt="PCB细节"> <img src="portfolio/pcb3.jpg" alt="PCB细节"></p>
 
         <hr>
 
-        <h2>作品四：RISC-V 开发板实验</h2>
-        <p><img src="portfolio/riscv_board.jpg" alt="RISC-V 开发板"></p>
-        <p>在国产 RISC-V 开发板上移植 Zephyr RTOS 并验证外设驱动。</p>
-        <ul>
-          <li><strong>平台：</strong>CH32V307 (沁恒)</li>
-          <li><strong>系统：</strong>Zephyr RTOS</li>
-          <li><strong>外设：</strong>GPIO · UART · SPI · ADC · PWM</li>
-          <li><strong>成果：</strong>提交 3 个驱动补丁到上游社区</li>
+        <h2>作品四：硬件原理图设计</h2>
+        <p><a href="portfolio/原理图.pdf" target="_blank"><img src="portfolio/pcb.jpg" alt="硬件原理图预览"></a></p>
+        <p>基于 STM32 系列 MCU 的系统原理图设计，涵盖电源管理、外设接口、电机驱动等模块。<br>
+        <a href="portfolio/原理图.pdf" target="_blank">查看完整原理图（PDF）</a></p>
+       <ul>
+          <li><strong>设计工具：</strong>嘉立创EDA / Altium Designer</li>
+          <li><strong>模块：</strong>电源管理 · MCU最小系统 · 电机驱动 · 通信接口</li>
         </ul>
 
         <hr>
