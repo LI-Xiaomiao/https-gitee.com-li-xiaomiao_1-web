@@ -1,0 +1,184 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>嵌入式开发者 - 作品集</title>
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/admin-btn.css" />
+</head>
+<body>
+
+  <input type="radio" name="nav" id="nav-personal" checked hidden>
+  <input type="radio" name="nav" id="nav-experience" hidden>
+  <input type="radio" name="nav" id="nav-skills" hidden>
+  <input type="radio" name="nav" id="nav-portfolio" hidden>
+  <input type="checkbox" id="sidebarToggle" hidden>
+
+  <div class="layout">
+
+    <aside class="sidebar">
+      <label for="sidebarToggle" class="sidebar-btn" aria-label="切换侧边栏">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </label>
+
+      <div class="sidebar-header">
+        <div class="avatar">&#x1F469;&#x200D;&#x1F4BB;</div>
+        <h1 id="sidebarName"><%= personal.name %></h1>
+        <p id="sidebarTitle"><%= personal.title %></p>
+      </div>
+
+      <nav class="nav">
+        <label class="nav-item" for="nav-personal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>个人信息</span>
+        </label>
+        <label class="nav-item" for="nav-experience">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+          <span>项目经验</span>
+        </label>
+        <label class="nav-item" for="nav-skills">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+          <span>技术栈</span>
+        </label>
+        <label class="nav-item" for="nav-portfolio">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <span>作品集</span>
+        </label>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a href="/admin" class="admin-link">管理后台</a>
+      </div>
+    </aside>
+
+    <main class="main">
+
+      <!-- 个人信息 -->
+      <section id="personal" class="content-section">
+        <h1>个人信息</h1>
+
+        <h2>基本信息</h2>
+        <ul>
+          <li><strong>姓名：</strong><%= personal.basicInfo['姓名'] %></li>
+          <li><strong>职位：</strong><%= personal.basicInfo['职位'] %></li>
+          <li><strong>所在地：</strong><%= personal.basicInfo['所在地'] %></li>
+          <li><strong>邮箱：</strong><%= personal.basicInfo['邮箱'] %></li>
+          <li><strong>GitHub：</strong><a href="<%= personal.basicInfo.githubUrl %>"><%= personal.basicInfo.githubLabel %></a></li>
+          <li><strong>个人网站：</strong><a href="<%= personal.basicInfo.websiteUrl %>"><%= personal.basicInfo.websiteLabel %></a></li>
+        </ul>
+
+        <hr>
+
+        <h2>关于我</h2>
+        <blockquote>
+          <%- personal.about.replace(/\n/g, '<br>') %>
+        </blockquote>
+
+        <hr>
+
+        <h2>联系方式</h2>
+        <ul>
+          <li><strong>微信：</strong><%= personal.contact['微信'] %></li>
+          <li><strong>电话：</strong><%= personal.contact['电话'] %></li>
+          <li><strong>LinkedIn：</strong><a href="<%= personal.contact.linkedinUrl %>"><%= personal.contact.linkedinLabel %></a></li>
+        </ul>
+      </section>
+
+      <!-- 项目经验 -->
+      <section id="experience" class="content-section">
+        <h1>项目经验</h1>
+
+        <% experience.forEach(function(proj, idx) { %>
+          <% if (idx > 0) { %><hr><% } %>
+          <h2><%= proj.name %></h2>
+          <p><strong>时间：</strong><%= proj.time %></p>
+          <p><strong>角色：</strong><%= proj.role %></p>
+          <p><strong>描述：</strong><%= proj.description %></p>
+          <p><strong>负责内容：</strong></p>
+          <ul>
+            <% proj.responsibilities.forEach(function(r) { %>
+              <li><%= r %></li>
+            <% }); %>
+          </ul>
+          <p><strong>技术栈：</strong><%= proj.techStack %></p>
+        <% }); %>
+      </section>
+
+      <!-- 技术栈 -->
+      <section id="skills" class="content-section">
+        <h1>技术栈</h1>
+
+        <% var tableCats = ['嵌入式平台']; %>
+        <% Object.keys(skills).forEach(function(cat) { %>
+          <h2><%= cat %></h2>
+
+          <% if (tableCats.indexOf(cat) !== -1) { %>
+            <table>
+              <thead><tr><th>平台</th><th>经验</th></tr></thead>
+              <tbody>
+                <% skills[cat].forEach(function(item) { %>
+                  <tr><td><%= item.col1 %></td><td><%= item.col2 %></td></tr>
+                <% }); %>
+              </tbody>
+            </table>
+          <% } else { %>
+            <ul>
+              <% skills[cat].forEach(function(item) { %>
+                <li>
+                  <% if (item.name) { %>
+                    <strong><%= item.name %></strong> — <%= item.desc %>
+                  <% } else { %>
+                    <%= item.desc %>
+                  <% } %>
+                </li>
+              <% }); %>
+            </ul>
+          <% } %>
+        <% }); %>
+      </section>
+
+      <!-- 作品集 -->
+      <section id="portfolio" class="content-section">
+        <h1>作品集</h1>
+
+        <% portfolio.forEach(function(proj, idx) { %>
+          <% if (idx > 0) { %><hr><% } %>
+          <h2><%= proj.name %></h2>
+
+          <% proj.images.forEach(function(img) { %>
+            <p><img src="/<%= img %>" alt="<%= proj.name %>"></p>
+          <% }); %>
+
+          <p><%= proj.description %></p>
+
+          <% if (proj.links) { %>
+            <% proj.links.forEach(function(link) { %>
+              <p><a href="<%= link.url %>" target="_blank"><%= link.label %></a></p>
+            <% }); %>
+          <% } %>
+
+          <ul>
+            <% proj.details.forEach(function(d) { %>
+              <li><%= d %></li>
+            <% }); %>
+          </ul>
+        <% }); %>
+
+        <hr>
+        <blockquote>
+          <strong>提示：</strong>将作品实物照片放入 <code>portfolio/</code> 文件夹，
+          文件名与上面 <code>img src</code> 中的路径一致即可自动显示。
+          支持 JPG / PNG / WebP 格式。
+        </blockquote>
+      </section>
+
+      <label for="sidebarToggle" class="sidebar-overlay"></label>
+
+    </main>
+
+  </div>
+</body>
+</html>

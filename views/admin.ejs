@@ -1,0 +1,719 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>管理后台 - 嵌入式开发者</title>
+  <style>
+    :root {
+      --bg: #1a0f14;
+      --surface: #201318;
+      --border: #331a25;
+      --text: #e8d4dc;
+      --text2: #b5a0a8;
+      --accent: #e91e63;
+      --accent2: #f06292;
+      --input-bg: #2a1420;
+      --radius: 6px;
+      --font-sans: -apple-system,"Segoe UI","Noto Sans SC",sans-serif;
+      --font-mono: "Cascadia Code","Fira Code","JetBrains Mono",Consolas,monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+    .layout { display: flex; min-height: 100vh; }
+
+    /* Sidebar */
+    .sidebar {
+      width: 220px; flex-shrink: 0;
+      background: #160d11;
+      border-right: 1px solid var(--border);
+      padding: 24px 0;
+    }
+    .sidebar h2 {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--accent);
+      padding: 0 20px 20px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 8px;
+    }
+    .sidebar .nav-item {
+      display: block;
+      padding: 10px 20px;
+      color: var(--text2);
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      transition: all 0.2s;
+      font-size: 0.9rem;
+    }
+    .sidebar .nav-item:hover,
+    .sidebar .nav-item.active {
+      color: var(--text);
+      background: rgba(233,30,99,0.06);
+    }
+    .sidebar .nav-item.active {
+      border-left-color: var(--accent);
+      color: var(--accent);
+    }
+    .sidebar .nav-item small { display: block; font-size: 0.72rem; color: var(--text2); opacity: 0.7; margin-top: 2px; }
+
+    /* Main content */
+    .main {
+      flex: 1;
+      padding: 32px 40px;
+      max-width: 960px;
+    }
+    .main h1 {
+      font-family: var(--font-mono);
+      font-size: 1.3rem;
+      color: var(--accent);
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    /* Form styles */
+    .form-section { display: none; }
+    .form-section.active { display: block; }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--accent2);
+      margin-bottom: 4px;
+      font-family: var(--font-mono);
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 10px 14px;
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .form-group textarea { min-height: 80px; resize: vertical; }
+    .form-group textarea.tall { min-height: 160px; }
+
+    .form-row {
+      display: flex;
+      gap: 16px;
+    }
+    .form-row > .form-group { flex: 1; }
+
+    /* Card for list items */
+    .list-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    .list-card h4 {
+      font-size: 0.85rem;
+      color: var(--text2);
+      margin-bottom: 10px;
+      font-family: var(--font-mono);
+    }
+    .list-card .remove-btn {
+      float: right;
+      background: none;
+      border: 1px solid #5a1a2a;
+      color: #d06070;
+      padding: 2px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.78rem;
+    }
+    .list-card .remove-btn:hover { background: #3a1020; }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 24px;
+      border: none;
+      border-radius: var(--radius);
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover { background: #c01850; }
+    .btn-secondary {
+      background: transparent;
+      color: var(--accent2);
+      border: 1px solid var(--accent2);
+    }
+    .btn-secondary:hover { background: rgba(240,98,146,0.1); }
+    .btn-sm {
+      padding: 6px 14px;
+      font-size: 0.82rem;
+    }
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      margin: 24px 0;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+    .btn-success {
+      background: #2e7d32;
+      color: #fff;
+    }
+    .btn-success:hover { background: #1b5e20; }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      padding: 14px 24px;
+      border-radius: var(--radius);
+      color: #fff;
+      font-size: 0.85rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s;
+      z-index: 999;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast.success { background: #2e7d32; }
+    .toast.error { background: #b71c1c; }
+    .toast.info { background: #1565c0; }
+
+    /* Action bar */
+    .action-bar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      align-items: center;
+    }
+    .action-bar span { color: var(--text2); font-size: 0.85rem; flex: 1; }
+
+    /* Section status badge */
+    .status-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 0.72rem;
+      margin-left: 8px;
+    }
+    .status-badge.saved { background: rgba(46,125,50,0.2); color: #81c784; }
+    .status-badge.unsaved { background: rgba(183,28,28,0.2); color: #ef9a9a; }
+
+    /* Image upload */
+    .upload-area {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      margin-bottom: 12px;
+    }
+    .upload-area:hover { border-color: var(--accent); }
+    .upload-area p { color: var(--text2); font-size: 0.85rem; }
+    .upload-area input { display: none; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    @media (max-width: 768px) {
+      .sidebar { width: 180px; }
+      .main { padding: 20px; }
+      .form-row { flex-direction: column; gap: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <h2>管理后台</h2>
+      <% sections.forEach(function(s) { %>
+        <div class="nav-item" data-section="<%= s %>" onclick="switchSection('<%= s %>')">
+          <%= sectionTitles[s] %>
+          <span class="status-badge saved" id="badge-<%= s %>">已保存</span>
+        </div>
+      <% }); %>
+      <div style="margin-top: 32px; padding: 0 16px;">
+        <a href="/" style="display:block;padding:8px 12px;color:var(--text2);font-size:0.82rem;text-decoration:none;border-radius:var(--radius);">← 返回网站</a>
+      </div>
+    </div>
+
+    <!-- Main -->
+    <div class="main">
+      <h1 id="pageTitle">个人信息</h1>
+
+      <!-- Personal Section -->
+      <div class="form-section active" id="sec-personal">
+        <div class="action-bar">
+          <span>编辑基本信息、关于我与联系方式</span>
+          <button class="btn btn-primary btn-sm" onclick="saveSection('personal')">保存个人信息</button>
+        </div>
+
+        <h3>基本信息</h3>
+        <div class="form-row">
+          <div class="form-group"><label>姓名</label><input id="p-name" value="" /></div>
+          <div class="form-group"><label>职位</label><input id="p-title" value="" /></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>所在地</label><input id="p-location" value="" /></div>
+          <div class="form-group"><label>邮箱</label><input id="p-email" value="" /></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>GitHub 标签</label><input id="p-gh-label" value="" /></div>
+          <div class="form-group"><label>GitHub 链接</label><input id="p-gh-url" value="" /></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>个人网站 标签</label><input id="p-web-label" value="" /></div>
+          <div class="form-group"><label>个人网站 链接</label><input id="p-web-url" value="" /></div>
+        </div>
+
+        <h3 style="margin-top: 24px;">关于我</h3>
+        <div class="form-group"><textarea class="tall" id="p-about"></textarea></div>
+
+        <h3>联系方式</h3>
+        <div class="form-row">
+          <div class="form-group"><label>微信</label><input id="p-wechat" value="" /></div>
+          <div class="form-group"><label>电话</label><input id="p-phone" value="" /></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>LinkedIn 标签</label><input id="p-li-label" value="" /></div>
+          <div class="form-group"><label>LinkedIn 链接</label><input id="p-li-url" value="" /></div>
+        </div>
+      </div>
+
+      <!-- Experience Section -->
+      <div class="form-section" id="sec-experience">
+        <div class="action-bar">
+          <span>编辑项目经验列表</span>
+          <button class="btn btn-primary btn-sm" onclick="saveSection('experience')">保存项目经验</button>
+        </div>
+        <div id="exp-list"></div>
+        <button class="btn btn-secondary btn-sm" onclick="addExpItem()">+ 添加项目</button>
+      </div>
+
+      <!-- Skills Section -->
+      <div class="form-section" id="sec-skills">
+        <div class="action-bar">
+          <span>编辑技术栈分类与条目</span>
+          <button class="btn btn-primary btn-sm" onclick="saveSection('skills')">保存技术栈</button>
+        </div>
+        <div id="skills-list"></div>
+      </div>
+
+      <!-- Portfolio Section -->
+      <div class="form-section" id="sec-portfolio">
+        <div class="action-bar">
+          <span>编辑作品集项目</span>
+          <button class="btn btn-primary btn-sm" onclick="saveSection('portfolio')">保存作品集</button>
+        </div>
+        <div id="portfolio-list"></div>
+        <button class="btn btn-secondary btn-sm" onclick="addPortfolioItem()">+ 添加作品</button>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-success" onclick="saveAll()">保存所有修改</button>
+        <button class="btn btn-secondary" onclick="refreshData()">重新加载数据</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    var _data = null;
+    var _currentSection = 'personal';
+
+    function showToast(msg, type) {
+      var t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast ' + type + ' show';
+      setTimeout(function() { t.className = 'toast ' + type; }, 3000);
+    }
+
+    function setBadge(section, saved) {
+      var b = document.getElementById('badge-' + section);
+      if (!b) return;
+      b.textContent = saved ? '已保存' : '未保存';
+      b.className = 'status-badge ' + (saved ? 'saved' : 'unsaved');
+    }
+
+    function switchSection(s) {
+      document.querySelectorAll('.form-section').forEach(function(el) { el.classList.remove('active'); });
+      document.querySelectorAll('.nav-item').forEach(function(el) { el.classList.remove('active'); });
+      document.getElementById('sec-' + s).classList.add('active');
+      document.querySelector('.nav-item[data-section="' + s + '"]').classList.add('active');
+      var titles = { personal: '个人信息', experience: '项目经验', skills: '技术栈', portfolio: '作品集' };
+      document.getElementById('pageTitle').textContent = titles[s] || s;
+      _currentSection = s;
+    }
+
+    // --- Personal form fill ---
+    function fillPersonal(d) {
+      document.getElementById('p-name').value = d.basicInfo['\u59d3\u540d'] || '';
+      document.getElementById('p-title').value = d.basicInfo['\u804c\u4f4d'] || '';
+      document.getElementById('p-location').value = d.basicInfo['\u6240\u5728\u5730'] || '';
+      document.getElementById('p-email').value = d.basicInfo['\u90ae\u7bb1'] || '';
+      document.getElementById('p-gh-label').value = d.basicInfo.githubLabel || '';
+      document.getElementById('p-gh-url').value = d.basicInfo.githubUrl || '';
+      document.getElementById('p-web-label').value = d.basicInfo.websiteLabel || '';
+      document.getElementById('p-web-url').value = d.basicInfo.websiteUrl || '';
+      document.getElementById('p-about').value = d.about || '';
+      document.getElementById('p-wechat').value = d.contact['\u5fae\u4fe1'] || '';
+      document.getElementById('p-phone').value = d.contact['\u7535\u8bdd'] || '';
+      document.getElementById('p-li-label').value = d.contact.linkedinLabel || '';
+      document.getElementById('p-li-url').value = d.contact.linkedinUrl || '';
+    }
+
+    function collectPersonal() {
+      return {
+        name: document.getElementById('p-name').value,
+        title: document.getElementById('p-title').value,
+        basicInfo: {
+          '\u59d3\u540d': document.getElementById('p-name').value,
+          '\u804c\u4f4d': document.getElementById('p-title').value,
+          '\u6240\u5728\u5730': document.getElementById('p-location').value,
+          '\u90ae\u7bb1': document.getElementById('p-email').value,
+          githubLabel: document.getElementById('p-gh-label').value,
+          githubUrl: document.getElementById('p-gh-url').value,
+          websiteLabel: document.getElementById('p-web-label').value,
+          websiteUrl: document.getElementById('p-web-url').value
+        },
+        about: document.getElementById('p-about').value,
+        contact: {
+          '\u5fae\u4fe1': document.getElementById('p-wechat').value,
+          '\u7535\u8bdd': document.getElementById('p-phone').value,
+          linkedinLabel: document.getElementById('p-li-label').value,
+          linkedinUrl: document.getElementById('p-li-url').value
+        }
+      };
+    }
+
+    // --- Experience ---
+    function renderExperience(items) {
+      var container = document.getElementById('exp-list');
+      container.innerHTML = '';
+      if (!items || items.length === 0) {
+        container.innerHTML = '<p style="color:var(--text2);">暂无项目，点击下方添加。</p>';
+        return;
+      }
+      items.forEach(function(item, idx) {
+        var card = document.createElement('div');
+        card.className = 'list-card';
+        var respHtml = '';
+        (item.responsibilities || ['']).forEach(function(r, ri) {
+          respHtml += '<div class="form-group"><input class="exp-resp-' + idx + '" value="' + escHtml(r) + '" placeholder="负责内容 ' + (ri+1) + '" /></div>';
+        });
+        card.innerHTML = '<button class="remove-btn" onclick="removeExpItem(' + idx + ')">删除</button>' +
+          '<h4>项目 ' + (idx+1) + '</h4>' +
+          '<div class="form-row"><div class="form-group"><label>项目名称</label><input class="exp-name" value="' + escHtml(item.name) + '" /></div></div>' +
+          '<div class="form-row"><div class="form-group"><label>时间</label><input class="exp-time" value="' + escHtml(item.time) + '" /></div>' +
+          '<div class="form-group"><label>角色</label><input class="exp-role" value="' + escHtml(item.role) + '" /></div></div>' +
+          '<div class="form-group"><label>描述</label><textarea class="exp-desc">' + escHtml(item.description) + '</textarea></div>' +
+          '<div class="form-group"><label>负责内容</label></div>' + respHtml +
+          '<div class="form-group"><label>技术栈</label><input class="exp-tech" value="' + escHtml(item.techStack) + '" /></div>';
+        container.appendChild(card);
+      });
+    }
+
+    function collectExperience() {
+      var items = [];
+      var cards = document.getElementById('exp-list').querySelectorAll('.list-card');
+      cards.forEach(function(card, idx) {
+        var resps = [];
+        card.querySelectorAll('.exp-resp-' + idx).forEach(function(inp) { resps.push(inp.value); });
+        items.push({
+          name: card.querySelector('.exp-name').value,
+          time: card.querySelector('.exp-time').value,
+          role: card.querySelector('.exp-role').value,
+          description: card.querySelector('.exp-desc').value,
+          responsibilities: resps.filter(function(r) { return r.trim() !== ''; }),
+          techStack: card.querySelector('.exp-tech').value
+        });
+      });
+      return items;
+    }
+
+    function addExpItem() {
+      if (!_data) return;
+      _data.experience.push({ name: '', time: '', role: '', description: '', responsibilities: [''], techStack: '' });
+      renderExperience(_data.experience);
+      setBadge('experience', false);
+    }
+
+    function removeExpItem(idx) {
+      if (!_data) return;
+      _data.experience.splice(idx, 1);
+      renderExperience(_data.experience);
+      setBadge('experience', false);
+    }
+
+    // --- Skills ---
+    function renderSkills(data) {
+      var container = document.getElementById('skills-list');
+      container.innerHTML = '';
+      if (!data) return;
+      var cats = Object.keys(data);
+      cats.forEach(function(cat) {
+        var items = data[cat];
+        var section = document.createElement('div');
+        section.className = 'list-card';
+        var isTable = cat === '\u5d4c\u5165\u5f0f\u5e73\u53f0';
+        var itemHtml = '';
+        items.forEach(function(item, idx) {
+          if (isTable) {
+            itemHtml += '<div class="form-row"><div class="form-group"><input class="sk-col1" value="' + escHtml(item.col1) + '" placeholder="平台" /></div>' +
+              '<div class="form-group"><input class="sk-col2" value="' + escHtml(item.col2) + '" placeholder="经验" /></div></div>';
+          } else {
+            itemHtml += '<div class="form-row"><div class="form-group"><input class="sk-name" value="' + escHtml(item.name || '') + '" placeholder="名称（可选）" /></div>' +
+              '<div class="form-group" style="flex:2"><input class="sk-desc" value="' + escHtml(item.desc || '') + '" placeholder="描述" /></div></div>';
+          }
+        });
+        section.innerHTML = '<h4>' + cat + '</h4>' + itemHtml;
+        container.appendChild(section);
+      });
+    }
+
+    function collectSkills() {
+      var result = {};
+      var cats = Object.keys(_data.skills);
+      var cards = document.getElementById('skills-list').querySelectorAll('.list-card');
+      cards.forEach(function(card, ci) {
+        var cat = cats[ci];
+        if (!cat) return;
+        var isTable = cat === '\u5d4c\u5165\u5f0f\u5e73\u53f0';
+        var items = [];
+        var rows;
+        if (isTable) {
+          rows = card.querySelectorAll('.sk-col1');
+          rows.forEach(function(el, idx) {
+            var col2s = card.querySelectorAll('.sk-col2');
+            items.push({ col1: el.value, col2: col2s[idx] ? col2s[idx].value : '' });
+          });
+        } else {
+          rows = card.querySelectorAll('.sk-name');
+          rows.forEach(function(el, idx) {
+            var descs = card.querySelectorAll('.sk-desc');
+            items.push({ name: el.value || null, desc: descs[idx] ? descs[idx].value : '' });
+          });
+        }
+        result[cat] = items;
+      });
+      return result;
+    }
+
+    // --- Portfolio ---
+    function renderPortfolio(items) {
+      var container = document.getElementById('portfolio-list');
+      container.innerHTML = '';
+      if (!items || items.length === 0) {
+        container.innerHTML = '<p style="color:var(--text2);">暂无作品，点击下方添加。</p>';
+        return;
+      }
+      items.forEach(function(item, idx) {
+        var card = document.createElement('div');
+        card.className = 'list-card';
+        var imgsHtml = '';
+        (item.images || ['']).forEach(function(img, ii) {
+          imgsHtml += '<div style="display:flex;gap:8px;margin-bottom:6px;">' +
+            '<input class="pf-img-' + idx + '" value="' + escHtml(img) + '" placeholder="图片路径" style="flex:1;padding:8px 10px;background:var(--input-bg);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:0.85rem;" />' +
+            (ii === 0 ? '<button class="btn btn-secondary btn-sm" onclick="addPortfolioImage(' + idx + ')">+</button>' : '') +
+            '</div>';
+        });
+        var detailsHtml = '';
+        (item.details || ['']).forEach(function(d, di) {
+          detailsHtml += '<div style="display:flex;gap:8px;margin-bottom:6px;">' +
+            '<input class="pf-det-' + idx + '" value="' + escHtml(d) + '" placeholder="详情 ' + (di+1) + '" style="flex:1;padding:8px 10px;background:var(--input-bg);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:0.85rem;" />' +
+            (di === 0 ? '<button class="btn btn-secondary btn-sm" onclick="addPortfolioDetail(' + idx + ')">+</button>' : '') +
+            '</div>';
+        });
+
+        card.innerHTML = '<button class="remove-btn" onclick="removePortfolioItem(' + idx + ')">删除</button>' +
+          '<h4>作品 ' + (idx+1) + '</h4>' +
+          '<div class="form-group"><label>作品名称</label><input class="pf-name" value="' + escHtml(item.name) + '" /></div>' +
+          '<div class="form-group"><label>描述</label><textarea class="pf-desc">' + escHtml(item.description) + '</textarea></div>' +
+          '<div class="form-group"><label>图片路径（portfolio/ 目录下）</label></div>' + imgsHtml +
+          '<div class="form-group"><label>详情列表</label></div>' + detailsHtml +
+          '<div style="margin-top:8px;"><button class="btn btn-secondary btn-sm" onclick="uploadImage(' + idx + ')">上传图片</button></div>';
+        container.appendChild(card);
+      });
+    }
+
+    function collectPortfolio() {
+      var items = [];
+      var cards = document.getElementById('portfolio-list').querySelectorAll('.list-card');
+      cards.forEach(function(card, idx) {
+        var name = card.querySelector('.pf-name').value;
+        var desc = card.querySelector('.pf-desc').value;
+        var links = _data.portfolio[idx] ? _data.portfolio[idx].links : null;
+        var images = [];
+        card.querySelectorAll('.pf-img-' + idx).forEach(function(inp) { if (inp.value.trim()) images.push(inp.value.trim()); });
+        var details = [];
+        card.querySelectorAll('.pf-det-' + idx).forEach(function(inp) { if (inp.value.trim()) details.push(inp.value.trim()); });
+        items.push({ name: name, images: images, description: desc, details: details, links: links });
+      });
+      return items;
+    }
+
+    function addPortfolioItem() {
+      if (!_data) return;
+      _data.portfolio.push({ name: '', images: [''], description: '', details: [''], links: [] });
+      renderPortfolio(_data.portfolio);
+      setBadge('portfolio', false);
+    }
+
+    function removePortfolioItem(idx) {
+      if (!_data) return;
+      _data.portfolio.splice(idx, 1);
+      renderPortfolio(_data.portfolio);
+      setBadge('portfolio', false);
+    }
+
+    function addPortfolioImage(idx) {
+      if (!_data || !_data.portfolio[idx]) return;
+      _data.portfolio[idx].images.push('');
+      renderPortfolio(_data.portfolio);
+      setBadge('portfolio', false);
+    }
+
+    function addPortfolioDetail(idx) {
+      if (!_data || !_data.portfolio[idx]) return;
+      _data.portfolio[idx].details.push('');
+      renderPortfolio(_data.portfolio);
+      setBadge('portfolio', false);
+    }
+
+    function uploadImage(idx) {
+      var input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.onchange = function(e) {
+        var file = e.target.files[0];
+        if (!file) return;
+        var reader = new FileReader();
+        reader.onload = function(ev) {
+          var b64 = ev.target.result.split(',')[1];
+          var filename = file.name;
+          fetch('/api/upload', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ filename: filename, data: b64 })
+          }).then(function(r) { return r.json(); }).then(function(res) {
+            if (res.success) {
+              showToast('图片 ' + filename + ' 上传成功', 'success');
+              if (_data && _data.portfolio[idx]) {
+                _data.portfolio[idx].images.push('portfolio/' + filename);
+                renderPortfolio(_data.portfolio);
+              }
+            }
+          });
+        };
+        reader.readAsDataURL(file);
+      };
+      input.click();
+    }
+
+    // --- Generic helpers ---
+    function escHtml(s) {
+      if (!s) return '';
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    // --- Save ---
+    function saveSection(section) {
+      var data;
+      switch (section) {
+        case 'personal':   data = collectPersonal(); break;
+        case 'experience': data = collectExperience(); break;
+        case 'skills':     data = collectSkills(); break;
+        case 'portfolio':  data = collectPortfolio(); break;
+      }
+      fetch('/api/data/' + section, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      }).then(function(r) { return r.json(); }).then(function(res) {
+        if (res.success) {
+          showToast(section + ' 保存成功', 'success');
+          setBadge(section, true);
+          _data[section] = data;
+        }
+      }).catch(function(err) {
+        showToast('保存失败: ' + err.message, 'error');
+      });
+    }
+
+    function saveAll() {
+      var sections = ['personal', 'experience', 'skills', 'portfolio'];
+      var promises = [];
+      sections.forEach(function(s) {
+        switch (s) {
+          case 'personal':   promises.push(fetch('/api/data/' + s, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(collectPersonal()) }).then(function(r) { return r.json(); })); break;
+          case 'experience': promises.push(fetch('/api/data/' + s, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(collectExperience()) }).then(function(r) { return r.json(); })); break;
+          case 'skills':     promises.push(fetch('/api/data/' + s, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(collectSkills()) }).then(function(r) { return r.json(); })); break;
+          case 'portfolio':  promises.push(fetch('/api/data/' + s, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(collectPortfolio()) }).then(function(r) { return r.json(); })); break;
+        }
+      });
+      Promise.all(promises).then(function() {
+        showToast('所有数据已保存', 'success');
+        ['personal','experience','skills','portfolio'].forEach(function(s) { setBadge(s, true); });
+      }).catch(function(err) {
+        showToast('保存失败: ' + err.message, 'error');
+      });
+    }
+
+    function refreshData() {
+      fetch('/api/data').then(function(r) { return r.json(); }).then(function(data) {
+        _data = data;
+        fillPersonal(data.personal);
+        renderExperience(data.experience);
+        renderSkills(data.skills);
+        renderPortfolio(data.portfolio);
+        ['personal','experience','skills','portfolio'].forEach(function(s) { setBadge(s, true); });
+        showToast('数据已重新加载', 'info');
+      });
+    }
+
+    // Init
+    fetch('/api/data').then(function(r) { return r.json(); }).then(function(data) {
+      _data = data;
+      fillPersonal(data.personal);
+      renderExperience(data.experience);
+      renderSkills(data.skills);
+      renderPortfolio(data.portfolio);
+      switchSection('personal');
+    });
+  </script>
+</body>
+</html>

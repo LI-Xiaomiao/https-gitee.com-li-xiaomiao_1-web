@@ -1,4 +1,4 @@
-﻿# 技术栈
+# 技术栈
 
 ## 编程语言
 
@@ -27,17 +27,17 @@
 
 ## 协议与总线
 
-- **有线：** I2C · SPI · UART · CAN · USB · Ethernet
-- **无线：** BLE · WiFi · LoRa · NB-IoT
-- **应用层：** MQTT · CoAP · HTTP/HTTPS · Modbus
+- **有线** — I2C · SPI · UART · CAN · USB · Ethernet
+- **无线** — BLE · WiFi · LoRa · NB-IoT
+- **应用层** — MQTT · CoAP · HTTP/HTTPS · Modbus
 
 ## 工具链与调试
 
-- **IDE：** Keil MDK · IAR Embedded Workbench · STM32CubeIDE · VS Code
-- **调试器：** J-Link · ST-Link · DAP-Link · OpenOCD
-- **逻辑分析仪：** Saleae Logic · DSView · PulseView
-- **版本管理：** Git · GitHub · GitLab
-- **CI/CD：** GitHub Actions · Jenkins
+- **IDE** — Keil MDK · IAR Embedded Workbench · STM32CubeIDE · VS Code
+- **调试器** — J-Link · ST-Link · DAP-Link · OpenOCD
+- **逻辑分析仪** — Saleae Logic · DSView · PulseView
+- **版本管理** — Git · GitHub · GitLab
+- **CI/CD** — GitHub Actions · Jenkins
 
 ## 硬件技能
 
@@ -46,3 +46,4 @@
 - 焊接与硬件调试（示波器 · 万用表 · 信号发生器）
 - 低功耗电路设计
 - 传感器选型与验证
+
